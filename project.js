@@ -1,4 +1,22 @@
 const prompt = require("prompt-sync")();
+
+const FILAS = 3;
+const COLUMNAS = 3;
+
+const CONTADOR_SIMBOLOS = {
+  A: 2,
+  B: 4,
+  C: 6,
+  D: 8,
+};
+
+const VALORES_SIMBOLOS = {
+  A: 5,
+  B: 4,
+  C: 3,
+  D: 2,
+};
+
 const deposito = () => {
   while (true) {
     const cantidadDeposito = prompt("Ingrese la cantidad a depositar: ");
@@ -44,6 +62,30 @@ const obtenerApuesta = (balance, lineas) => {
   }
 };
 
+const ruleta = () => {
+  const simbolos = [];
+  for (const [simbolo, contador] of Object.entries(CONTADOR_SIMBOLOS)) {
+    for (let i = 0; i < contador; i++) {
+      simbolos.push(simbolo);
+    }
+    console.log(simbolos);
+  }
+
+  const carrete = [[], [], []];
+  for (let i = 0; i < COLUMNAS; i++) {
+    const carreteSimbolos = [...simbolos];
+    for (let j = 0; j < FILAS; j++) {
+      const randomIndex = Math.floor(Math.random() * carreteSimbolos.length);
+      const simboloSeleccionado = carreteSimbolos[randomIndex];
+      carrete[i].push(simboloSeleccionado);
+      carreteSimbolos.splice(randomIndex, 1);
+    }
+  }
+
+  return carrete;
+};
+
+ruleta();
 let balance = deposito();
 const numeroDeLineas = obtenerNumeroDeLineas();
 const apuesta = obtenerApuesta(balance, numeroDeLineas);
